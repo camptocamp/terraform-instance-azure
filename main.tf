@@ -149,7 +149,7 @@ module "puppet-node" {
     {
       hostname = azurerm_virtual_machine.this[i].private_dns
       connection = {
-        host                = azurerm_public_ip.this[count.index].ip_address
+        host                = azurerm_public_ip.this[i].ip_address
         type                = lookup(var.connection, "type", null)
         user                = lookup(var.connection, "user", "terraform")
         password            = lookup(var.connection, "password", null)

@@ -11,12 +11,12 @@ output "this_azurerm_network_interface_private_ip_address" {
 
 output "this_instance_public_ipv4" {
   description = "Instance's public IPv4"
-  value       = length(split(":", azurerm_public_ip.this[*].ip_address)) == 1 ? azurerm_public_ip.this[*].ip_address : ""
+  value       = length(split(":", azurerm_public_ip.this[*].ip_address)) == 1 ? azurerm_public_ip.this[*].ip_address : []
 }
 
 output "this_instance_public_ipv6" {
   description = "Instance's public IPv6"
-  value       = length(split(":", azurerm_public_ip.this[*].ip_address)) > 1 ? azurerm_public_ip.this[*].ip_address : ""
+  value       = length(split(":", azurerm_public_ip.this[*].ip_address)) > 1 ? azurerm_public_ip.this[*].ip_address : []
 }
 
 output "this_instance_hostname" {

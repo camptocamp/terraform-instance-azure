@@ -152,7 +152,8 @@ module "puppet-node" {
         join(
           "-",
           split(".", azurerm_network_interface.this[i].private_ip_address),
-        )
+        ),
+        var.domain,
       )
 
       connection = {

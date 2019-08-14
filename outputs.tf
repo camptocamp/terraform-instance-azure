@@ -11,7 +11,10 @@ output "this_azurerm_network_interface_private_ip_address" {
 
 output "this_instance_public_ipv4" {
   description = "Instance's public IPv4"
-  value       = length(split(":", azurerm_public_ip.this[*].ip_address)) == 1 ? azurerm_public_ip.this[*].ip_address : []
+  value = [
+    for i in range(length(azurerm_public_ip.this[*])) :
+    length(split(":", azurerm_public_ip.this[i].ip_address)) == 1 ? azurerm_public_ip.this[i].ip_address : ""
+  ]
 }
 
 output "this_instance_public_ipv6" {

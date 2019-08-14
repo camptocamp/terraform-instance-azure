@@ -182,5 +182,5 @@ module "puppet-node" {
   role              = lookup(var.puppet, "role", null)
   autosign_psk      = lookup(var.puppet, "autosign_psk", null)
 
-  deps_on = null_resource.provisioner[*].id
+  deps_on = null_resource.this[*].id
 }

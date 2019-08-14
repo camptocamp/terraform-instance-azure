@@ -27,5 +27,5 @@ output "this_instance_public_ipv6" {
 
 output "this_instance_hostname" {
   description = "Instance's hostname"
-  value       = format("ip-%s.%s", join("-", split(".", azurerm_network_interface.this[*].private_ip_address)), var.domain)
+  value       = formatlist("ip-%s.%s", join("-", split(".", azurerm_network_interface.this[*].private_ip_address)), var.domain)
 }

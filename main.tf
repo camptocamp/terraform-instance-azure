@@ -147,7 +147,14 @@ module "puppet-node" {
   instances = [
     for i in range(length(azurerm_virtual_machine.this)) :
     {
-      hostname = azurerm_virtual_machine.this[i].private_dns
+      hostname = format(
+        "ip-%s.%s",
+        join(
+          "-",
+          split(".", azurerm_network_interface.this[i].private_ip_address),
+        )
+      )
+
       connection = {
         host                = azurerm_public_ip.this[i].ip_address
         type                = lookup(var.connection, "type", null)

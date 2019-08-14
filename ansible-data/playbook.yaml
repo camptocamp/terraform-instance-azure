@@ -1,0 +1,5 @@
+- hosts: all
+  remote_user: terraform
+  become: true
+  roles:
+    - common

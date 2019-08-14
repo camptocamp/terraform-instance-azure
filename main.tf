@@ -130,34 +130,6 @@ resource "null_resource" "this" {
           ),
         )
         domain_name = var.domain
-        puppet_autosign_challenge = format(
-          "hashed;%s",
-          base64sha256(
-            format(
-              "%s/%s/%s/%s",
-              var.puppet_autosign_psk,
-              format(
-                "ip-%s.%s",
-                join(
-                  "-",
-                  split(
-                    ".",
-                    flatten(azurerm_network_interface.this[count.index].private_ip_address),
-                  ),
-                ),
-                var.domain,
-              ),
-              var.puppet_role,
-              var.puppet_environment,
-            ),
-          ),
-        )
-        puppet_environment = var.puppet_environment
-        puppet_role        = var.puppet_role
-        puppet_server      = var.puppet_server
-        puppet_caserver    = var.puppet_caserver
-        puppet_port        = var.puppet_port
-        puppet_caport      = var.puppet_caport
       }
     }
   }

@@ -1,0 +1,10 @@
+---
+- name: set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: set fqdn
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1\t{{ hostname }}.{{ domain_name }}\t{{ hostname }}"
+    state: present

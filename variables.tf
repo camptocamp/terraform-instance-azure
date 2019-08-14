@@ -3,6 +3,11 @@ variable "instance_count" {
   default     = 1
 }
 
+variable "connection" {
+  description = "The provisioner connection configuration."
+  default     = {}
+}
+
 variable "storage_image_reference" {
   description = "A storage_image_reference block."
   type        = map(string)
@@ -54,4 +59,13 @@ variable "os_managed_disk_type" {
 variable "tags" {
   description = "A mapping of tags to assign to the resources of this module."
   default     = {}
+}
+
+#########
+# Puppet
+
+variable "puppet" {
+  description = "Puppet related variables."
+  type        = map(string)
+  default     = null
 }

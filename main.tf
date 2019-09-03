@@ -2,10 +2,15 @@ data "azurerm_resource_group" "this" {
   name = var.resource_group_name
 }
 
+resource "random_string" "instance_id" {
+  length  = 6
+  special = false
+}
+
 resource "azurerm_public_ip" "this" {
   count = var.instance_count
 
-  name                = format("%s%d", var.module_name, count.index)
+  name                = format("%s-%s-%d", var.module_name, random_string.instance_id.result, count.index)
   location            = data.azurerm_resource_group.this.location
   resource_group_name = data.azurerm_resource_group.this.name
   allocation_method   = "Static"
@@ -15,14 +20,14 @@ resource "azurerm_public_ip" "this" {
 resource "azurerm_network_interface" "this" {
   count = var.instance_count
 
-  name                      = format("%s%d", var.module_name, count.index)
+  name                      = format("%s-%s-%d", var.module_name, random_string.instance_id.result, count.index)
   location                  = data.azurerm_resource_group.this.location
   resource_group_name       = data.azurerm_resource_group.this.name
   network_security_group_id = var.network_security_group_id
   tags                      = var.tags
 
   ip_configuration {
-    name                          = format("%s%d", var.module_name, count.index)
+    name                          = format("%s-%s-%d", var.module_name, random_string.instance_id.result, count.index)
     subnet_id                     = var.subnet_id
     private_ip_address_allocation = "dynamic"
     public_ip_address_id          = azurerm_public_ip.this[count.index].id
@@ -32,7 +37,7 @@ resource "azurerm_network_interface" "this" {
 resource "azurerm_virtual_machine" "this" {
   count = var.instance_count
 
-  name                          = format("%s%d", var.module_name, count.index)
+  name                          = format("%s-%s-%d", var.module_name, random_string.instance_id.result, count.index)
   location                      = data.azurerm_resource_group.this.location
   resource_group_name           = data.azurerm_resource_group.this.name
   network_interface_ids         = [azurerm_network_interface.this[count.index].id]
@@ -51,7 +56,7 @@ resource "azurerm_virtual_machine" "this" {
   tags = var.tags
 
   storage_os_disk {
-    name              = format("%s%d", var.module_name, count.index)
+    name              = format("%s-%s-%d", var.module_name, random_string.instance_id.result, count.index)
     caching           = "ReadWrite"
     create_option     = "FromImage"
     disk_size_gb      = var.os_disk_size_gb

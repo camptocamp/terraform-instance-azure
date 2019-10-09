@@ -30,6 +30,11 @@ variable "module_name" {
   description = "The name of the module used to generate some resources' name."
 }
 
+variable "force_module_name" {
+  description = "Force create resources with this exact name (do not add random characters)"
+  default     = false
+}
+
 variable "resource_group_name" {
   description = "Specifies the name of the Resource Group in which the Virtual Machine should exist."
 }

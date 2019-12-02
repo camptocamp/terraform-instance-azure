@@ -139,6 +139,11 @@ resource "null_resource" "this" {
         domain_name = var.domain
       }
     }
+
+    ansible_ssh_settings {
+      connect_timeout_seconds = 60
+      insecure_no_strict_host_key_checking = true
+    }
   }
 
   depends_on = [azurerm_virtual_machine.this]

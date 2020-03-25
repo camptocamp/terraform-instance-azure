@@ -25,7 +25,6 @@ resource "azurerm_network_interface" "this" {
   name                      = var.force_module_name ? format("%s%d", var.module_name, count.index) : format("%s-%s-%d", var.module_name, random_string.instance_id[0].result, count.index)
   location                  = data.azurerm_resource_group.this.location
   resource_group_name       = data.azurerm_resource_group.this.name
-  network_security_group_id = var.network_security_group_id
   tags                      = var.tags
 
   ip_configuration {
@@ -34,6 +33,12 @@ resource "azurerm_network_interface" "this" {
     private_ip_address_allocation = "dynamic"
     public_ip_address_id          = azurerm_public_ip.this[count.index].id
   }
+}
+
+resource "azurerm_network_interface_security_group_association" "this" {
+  count                     = var.instance_count
+  network_interface_id      = azurerm_network_interface.this[count.index].id
+  network_security_group_id = var.network_security_group_id
 }
 
 resource "azurerm_virtual_machine" "this" {

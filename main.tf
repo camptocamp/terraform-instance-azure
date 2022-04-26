@@ -30,7 +30,7 @@ resource "azurerm_network_interface" "this" {
   ip_configuration {
     name                          = var.force_module_name ? format("%s%d", var.module_name, count.index) : format("%s-%s-%d", var.module_name, random_string.instance_id[0].result, count.index)
     subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "dynamic"
+    private_ip_address_allocation = "Dynamic"
     public_ip_address_id          = azurerm_public_ip.this[count.index].id
   }
 }
